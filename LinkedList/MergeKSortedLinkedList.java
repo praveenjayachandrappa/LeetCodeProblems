@@ -1,5 +1,9 @@
 package LinkedList;
 
+import jdk.nashorn.internal.ir.LiteralNode;
+
+import java.util.PriorityQueue;
+
 public class MergeKSortedLinkedList {
 
     /**
@@ -87,7 +91,7 @@ public class MergeKSortedLinkedList {
     //Efficient approach :
     //Time Complexity is =o(nlogK) where each time list is reduced by factor of 2;
     //Sapce Complexity is o(1);
-
+/*
     public ListNode mergeKLists(ListNode[] lists) {
 
         if(lists==null || lists.length==0)
@@ -126,5 +130,33 @@ public class MergeKSortedLinkedList {
         }
         cur.next=(l1==null)?l2:l1;
         return res.next;
+    }*/
+
+    //Third approach Using Heap Data structures;
+    //Time complexity of this approach is n(logK)
+    public ListNode mergeKLists(ListNode[] lists) {
+
+        if (lists == null || lists.length == 0)
+            return null;
+
+        PriorityQueue<ListNode> priorityQueue=new PriorityQueue<>((l1,l2)->l1.val- l2.val);
+
+        for (ListNode list:lists) {
+            while (list!=null){
+                priorityQueue.add(list);
+                list=list.next;
+            }
+        }
+
+        ListNode res=new ListNode();
+        ListNode cur=res;
+        while (!priorityQueue.isEmpty()){
+            cur.next=priorityQueue.poll();
+            cur=cur.next;
+        }
+        return res.next;
     }
+
+
+
 }
